@@ -1,4 +1,5 @@
 import fips_raw from "./fips.csv";
+import Papa from "papaparse";
 
 /*Organize fips codes into object*/
 const fips = key_by_first(fips_raw)
@@ -22,7 +23,7 @@ function merge_properties(props, data, headers) {
 function merge_csv(geojson, data, headers) {
   geojson.features.forEach((feature) => {
     var state = feature.properties.STATEFP*1;
-    var cd = feature.properties.CD118FP*1;
+    var cd = feature.properties.CD119FP*1;
     if (data[state]) {
       if (data[state][cd]) {
         merge_properties(feature.properties, data[state][cd], headers)
@@ -64,24 +65,28 @@ function binData(cds, prop, bins, rounding) {
 }
 
 function parse_csv(d) {
+  d = Papa.parse(d).data;
   const header_row = 0;
   const data_start = 1;
-  d = d.split("\n");
   var r = {};
   d.forEach((row, i) => {
     if (i < data_start) {return;}
-    row = row.split(",");
     row.forEach((cell, j) => {
-      row[j] = cell*1;
+      var n = cell*1;
+      if (!isNaN(n)) {
+        row[j] = n;
+      } else {
+        row[j] = cell;
+      }
     })
-    var state = row[0]*1;
-    var cd = row[1]*1;
+    var state = row[2]*1;
+    var cd = row[3]*1;
     if (typeof(r[state])==="undefined") {
       r[state] = {};
     }
     r[state][cd] = row;
   });
-  return {data: r, headers: d[header_row].split(",")};
+  return {data: r, headers: d[header_row]};
 }
 
 

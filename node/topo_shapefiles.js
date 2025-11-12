@@ -7,7 +7,7 @@ try {
   console.log(ex);
 }
 
-handle_geojson_file("./geojson/cb_2023_us_cd118_500k.json", "../html/topojson/cd_topojson.json");
+handle_geojson_file("./geojson/cb_2024_us_cd119_500k.json", "../html/topojson/cd_topojson.json");
 
 function handle_geojson_file(file, dest) {
   var merged_geojson = JSON.parse(fs.readFileSync(file, "utf-8"));

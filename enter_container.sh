@@ -1,1 +1,1 @@
-docker exec -it -w /opt/project/app health10-15-24-watch /bin/bash
+docker exec -it -w /opt/project/app health11-12-25-watch /bin/bash

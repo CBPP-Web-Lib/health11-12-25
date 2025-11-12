@@ -82,8 +82,10 @@ function event_handlers(args) {
       hide_popup()
 
       /*Don't do anything for districts with no data*/
-      if (!data.properties.cd_enroll) {return;}
+      //if (!data.properties.cd_enroll) {return;}
+      console.log(data.properties);
       var popup_html = popupMaker(data.properties);
+  
       set_popup_text(popup_html);
       show_popup();
 

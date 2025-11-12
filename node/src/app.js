@@ -1,5 +1,3 @@
-import "core-js/stable";
-import "regenerator-runtime/runtime";
 import "./style.scss";
 import { 
   select as d3_select, 
@@ -22,7 +20,7 @@ import { merge_states_from_districts } from "./merge_states_from_districts";
 /**
  * Initial setup tasks
  */
-const id = "health10-15-24"
+const id = "health11-12-25"
 const sel = "#" + id
 const script_id = "script_" + id
 const script_sel = "#" + script_id
@@ -39,7 +37,7 @@ const NUM_BINS = 8
 const STATE_BORDER_COLOR = "#000000"
 const DISTRICT_BORDER_COLOR = "#FFFFFF"
 const HOVER_COLOR = "#9ab0db"
-const PRIMARY_COL = "cd_perc_increase"
+const PRIMARY_COL = "couple_increase"
 const NO_DATA_COLOR = "#888"
 
 /*This is a utility library that interpolates colors and returns a list*/
@@ -85,7 +83,7 @@ Promise.all([
 
   /*Parse the data CSV*/
   var {data, headers} = parse_csv(d[2].data);
-
+  
   /*Merge it into the GeoJSON data*/
   merge_csv(geojson, data, headers);
 
@@ -96,7 +94,7 @@ Promise.all([
   create_controls(sel, zoomer);
 
   /*Calculate the ideal bins*/
-  var bins = binData(geojson.features, PRIMARY_COL, NUM_BINS, 0.05);
+  var bins = binData(geojson.features, PRIMARY_COL, NUM_BINS, 500);
 
   /*Draw the map!*/
   draw_districts({svg, geojson, data, bins});

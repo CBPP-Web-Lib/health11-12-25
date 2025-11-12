@@ -1,5 +1,5 @@
 import { select as d3_select } from "d3";
-
+import commaNumber from "comma-number";
 /**
  * Create legend
  */
@@ -18,8 +18,8 @@ function create_legend(el, bins, colors) {
   return { legend }
 }
 
-function percent(n) {
-  return Math.round(n*100) + "%"
+function dollar(n) {
+  return "$" + commaNumber(Math.round(n));
 }
 
 /**
@@ -40,7 +40,7 @@ function create_bin(bin, color) {
       .attr("stroke-width", 0)
   var label = document.createElement("div");
   label.classList.add("label");
-  label.innerHTML = "<div>" + percent(bin) + "</div>";
+  label.innerHTML = "<div>" + dollar(bin) + "</div>";
   box.appendChild(label);
   return box;
     
@@ -52,7 +52,7 @@ function create_final_label(n) {
   box.classList.add("fake-box");
   var label = document.createElement("div");
   label.classList.add("label");
-  label.innerHTML = "<div>" + percent(n) + "</div>";
+  label.innerHTML = "<div>" + dollar(n) + "</div>";
   box.appendChild(label);
   return box;
 }

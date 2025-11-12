@@ -2,13 +2,32 @@
   <h3>{{full_district_name}}</h3>
   <table class='popup-data-table'>
     <tr>
-      <td>Enrollment</td><td>{{commaNumber cd_enroll}}</td>
+      <td></td>
+      <td>With enhancements</td>
+      <td>Without enhancements</td>
+      <td>Premium increase w/o enhancements</td>
+      <td>Percentage premium increase</td>
     </tr>
     <tr>
-      <td>Annual dollar increase</td><td>{{dollar (annualize cd_avg_savings)}}</td>
+      <td>45-year-old individual, $32,000 (204% of FPL)</td>
+      <td>${{commaNumber indiv_with}}</td>
+      <td>${{commaNumber indiv_without}}</td>
+      <td>${{commaNumber indiv_increase}}</td>
+      <td>{{percent indiv_perc}}</td>
     </tr>
     <tr>
-      <td>Percent increase</td><td>{{percent cd_perc_increase}}</td>
+      <td>Family of four, $130,000 (404% FPL)</td>
+      <td>${{commaNumber family_with}}</td>
+      <td>${{commaNumber family_without}}</td>
+      <td>${{commaNumber family_increase}}</td>
+      <td>{{percent family_perc}}</td>
+    </tr>
+    <tr>
+      <td>60-year-old couple, $85,000 (401% FPL)</td>
+      <td>${{commaNumber couple_with}}</td>
+      <td>${{commaNumber couple_without}}</td>
+      <td>${{commaNumber couple_increase}}</td>
+      <td>{{percent couple_perc}}</td>
     </tr>
   </table>
 </div>
