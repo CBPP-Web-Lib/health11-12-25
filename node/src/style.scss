@@ -140,7 +140,8 @@
       pointer-events:all;
     } 
     .popup {
-      width:200px;
+      //width:400px;
+      max-width:500px;
       background-color: #fff;
       z-index:10;
       position:relative;
@@ -162,19 +163,19 @@
         tbody, tr, td {
           font-size:inherit;
         }
-        td {
+        th {vertical-align: bottom;}
+        td, th {
           padding:0;
           line-height:1.2;
           font-family:"proxima-nova-condensed","Roboto Condensed",sans-serif;
           border:none;
+          text-align:right;
         }
-        td:first-child {
+        td:first-child, th:first-child {
           font-weight:bold;
           text-indent:-10px;
           padding-left:10px;
-        }
-        td:last-child {
-          text-align:right;
+          text-align:left;
         }
       }
     }
