@@ -33,8 +33,10 @@ function event_handlers(args) {
       popup.style.bottom = ((window.innerHeight - clientY) + 20) + "px";
     }
     popup.style.left = clientX + "px";
+    var width = popup.querySelector(".popup").getBoundingClientRect().width;
+    console.log(width, px);
     if (popup.querySelector(".popup")) {
-      popup.querySelector(".popup").style.left = (-px*450) + "px";
+      popup.querySelector(".popup").style.left = (-px*width*1.05) + "px";
     }
   }
 
@@ -58,7 +60,7 @@ function event_handlers(args) {
       seems to cause less conflicts with the pan/zoom library*/
 
       /*Don't do anything for districts with no data*/
-      if (!data.properties.cd_enroll) {return;}
+      //if (!data.properties.cd_enroll) {return;}
 
       /*Avoid showing new popup if touched to close*/
       if (popupRecentlyTouched) {return;}

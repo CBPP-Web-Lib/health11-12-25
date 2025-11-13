@@ -156,7 +156,7 @@
     } 
     .popup {
       //width:400px;
-      max-width:450px;
+      max-width:min(95vw, 450px);
       background-color: rgba(255, 255, 255, 0.94);
       z-index:10;
       position:relative;
@@ -171,7 +171,10 @@
       }
       table {
         margin:0;
-        font-size:12pt;
+        font-size:10pt;
+        @media (min-width:600px) {
+          font-size:12pt;
+        }
         border:0;
         font-family:"proxima-nova","Roboto",sans-serif;
         border-collapse: collapse;
@@ -205,7 +208,11 @@
         td:first-child, th:first-child {
           font-weight:bold;
           text-align:left;
-          white-space:nowrap;
+          br {display:none;}
+          @media (min-width:600px) {
+            white-space:nowrap;
+            br {display:inline;}
+          }
           & > span {
             padding-left:0;
           text-indent:-10px;
