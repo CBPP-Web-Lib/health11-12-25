@@ -67,6 +67,10 @@ Handlebars.registerHelper("capCase", function(t) {
   t = t.charAt(0).toUpperCase() + t.slice(1);
   return t;
 })
+Handlebars.registerHelper("label_br", function(t) {
+  t = t.split(", $");
+  return t.join(", <br>$");
+})
 const popupMakerRaw = Handlebars.compile(popupSnippet);
 const popupMaker = function(data) {
   var popupData = {};
