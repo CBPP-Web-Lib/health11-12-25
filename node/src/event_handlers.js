@@ -4,6 +4,9 @@ function event_handlers(args) {
 
   function set_popup_text(html) {
     document.querySelector(sel + " .popup-wrap").innerHTML = html;
+    document.querySelector(sel + " .popup-wrap").querySelectorAll("td, th").forEach((cell) => {
+      cell.innerHTML = "<span>" + cell.innerHTML + "</span>";
+    })
   }
   
   function hide_popup() {
@@ -31,7 +34,7 @@ function event_handlers(args) {
     }
     popup.style.left = clientX + "px";
     if (popup.querySelector(".popup")) {
-      popup.querySelector(".popup").style.left = (-px*200) + "px";
+      popup.querySelector(".popup").style.left = (-px*450) + "px";
     }
   }
 
@@ -81,11 +84,8 @@ function event_handlers(args) {
       /*Devices with a mouse only*/
       hide_popup()
 
-      /*Don't do anything for districts with no data*/
-      //if (!data.properties.cd_enroll) {return;}
-      console.log(data.properties);
       var popup_html = popupMaker(data.properties);
-  
+      
       set_popup_text(popup_html);
       show_popup();
 

@@ -2,34 +2,48 @@
   <h3>{{full_district_name}}</h3>
   <table class='popup-data-table'>
     <thead>
-      <tr>
+      <tr class='header-groups'>
         <th></th>
-        <th>With enhancements</th>
-        <th>Without enhancements</th>
-        <th>Premium increase w/o enhancements</th>
-        <th>Percentage premium increase</th>
+        <th colspan="2">{{capCase enhancements}}</th>
+        <th colspan="2" class='group-start'>Increase w/o {{enhancements}}</th>
+      </tr>
+      <tr class='header-subgroups'>
+        <th></th>
+        <th>With</th>
+        <th>Without</th>
+        <th class='group-start'>Dollar</th>
+        <th>Percent</th>
       </tr>
     </thead>
-    <tr>
-      <td>45-year-old individual, $32,000 (204% of FPL)</td>
-      <td>${{commaNumber indiv_with}}</td>
-      <td>${{commaNumber indiv_without}}</td>
-      <td>${{commaNumber indiv_increase}}</td>
-      <td>{{ indiv_perc}}</td>
-    </tr>
-    <tr>
-      <td>Family of four, $130,000 (404% FPL)</td>
-      <td>${{commaNumber family_with}}</td>
-      <td>${{commaNumber family_without}}</td>
-      <td>${{commaNumber family_increase}}</td>
-      <td>{{ family_perc}}</td>
-    </tr>
-    <tr>
-      <td>60-year-old couple, $85,000 (401% FPL)</td>
-      <td>${{commaNumber couple_with}}</td>
-      <td>${{commaNumber couple_without}}</td>
-      <td>${{commaNumber couple_increase}}</td>
-      <td>{{ couple_perc}}</td>
-    </tr>
+    <tbody>
+      <tr>
+        <td>45-year-old individual, <br>$32,000 (204% of FPL)</td>
+        <td>${{commaNumber indiv_with}}</td>
+        <td>${{commaNumber indiv_without}}</td>
+        <td class='group-start'>+${{commaNumber indiv_increase}}</td>
+        <td>+{{ indiv_perc}}</td>
+      </tr>
+      <tr>
+        <td>Family of four, <br>$130,000 (404% FPL)</td>
+        <td>${{commaNumber family_with}}</td>
+        <td>${{commaNumber family_without}}</td>
+        <td class='group-start'>+${{commaNumber family_increase}}</td>
+        <td>+{{ family_perc}}</td>
+      </tr>
+      <tr>
+        <td>60-year-old couple, <br>$85,000 (401% FPL)</td>
+        <td>${{commaNumber couple_with}}</td>
+        <td>${{commaNumber couple_without}}</td>
+        <td class='group-start'>+${{commaNumber couple_increase}}</td>
+        <td>+{{ couple_perc}}</td>
+      </tr>
+    </tbody>
+    {{#if notes}}
+    <tfoot>
+      <tr>
+        <td colspan="5">{{ notes }}</td>
+      </tr> 
+    </tfoot>
+    {{/if}}
   </table>
 </div>

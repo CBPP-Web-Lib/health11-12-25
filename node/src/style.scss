@@ -8,8 +8,12 @@
   h2, h3 {max-width:none}
   .legend {
     margin-top:1em;
-    margin-left:10%;
-    margin-right:10%;
+    margin-left:5%;
+    margin-right:5%;
+    @media (min-width:600px) {
+      margin-left:10%;
+      margin-right:10%;
+    }
     font-size:12pt;
     @media (max-width:768px) {
       font-size:10pt;
@@ -39,6 +43,17 @@
     }
     & > .fake-box {
       width:0;
+    }
+  }
+  span.roomy {
+    display:none;
+  }
+  @media (min-width:700px) {
+    span.compressed {
+      display:none;
+    }
+    span.roomy {
+      display:inline;
     }
   }
   .credit, .src-links {
@@ -141,8 +156,8 @@
     } 
     .popup {
       //width:400px;
-      max-width:500px;
-      background-color: #fff;
+      max-width:450px;
+      background-color: rgba(255, 255, 255, 0.94);
       z-index:10;
       position:relative;
       padding:10px;
@@ -155,27 +170,59 @@
         border-bottom:2px solid #000;
       }
       table {
-        width:100%;
+        margin:0;
         font-size:12pt;
-        padding:0;
         border:0;
         font-family:"proxima-nova","Roboto",sans-serif;
+        border-collapse: collapse;
         tbody, tr, td {
           font-size:inherit;
+        }
+        tr.header-groups {
+          th {
+            font-weight:bold;
+          }
+        }
+        tr.header-subgroups {
+          th {font-weight:normal;}
         }
         th {vertical-align: bottom;}
         td, th {
           padding:0;
+          padding-right:0.5em;
           line-height:1.2;
           font-family:"proxima-nova-condensed","Roboto Condensed",sans-serif;
           border:none;
           text-align:right;
+          & > span {
+            padding-left:0.5em;
+            display:inline-block;
+          }
+          &.group-start {
+            border-left:1px solid #aaa;
+          }
         }
         td:first-child, th:first-child {
           font-weight:bold;
+          text-align:left;
+          white-space:nowrap;
+          & > span {
+            padding-left:0;
           text-indent:-10px;
           padding-left:10px;
-          text-align:left;
+          display:inline-block;
+          }
+        }
+        tfoot td:first-child {
+          white-space:wrap;
+          font-weight:400;
+          font-size:10pt;
+          padding-top:1em;
+          span {
+            text-indent:0;
+            padding:0;
+          }
+          font-family:"proxima-nova",sans-serif;
         }
       }
     }

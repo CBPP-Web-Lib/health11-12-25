@@ -63,7 +63,25 @@ Handlebars.registerHelper("percent", function(n) {
 Handlebars.registerHelper("annualize", function(n) {
   return n*12
 })
-const popupMaker = Handlebars.compile(popupSnippet);
+Handlebars.registerHelper("capCase", function(t) {
+  t = t.charAt(0).toUpperCase() + t.slice(1);
+  return t;
+})
+const popupMakerRaw = Handlebars.compile(popupSnippet);
+const popupMaker = function(data) {
+  var popupData = {};
+  Object.keys(data).forEach((key) => {
+    popupData[key] = data[key];
+  })
+  if (popupData.notes === "NA") {
+    delete(popupData.notes);
+  }
+  popupData.enhancements = "enhancements";
+  if (popupData.state_fips == 35) {
+    popupData.enhancements = "New Mexico Premium Assistance";
+  }
+  return popupMakerRaw(popupData);
+}
 
 /**
  * Download the required files, Typekit fonts, and wait for DOMContentLoaded

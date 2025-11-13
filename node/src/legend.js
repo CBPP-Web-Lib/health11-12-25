@@ -19,7 +19,8 @@ function create_legend(el, bins, colors) {
 }
 
 function dollar(n) {
-  return "$" + commaNumber(Math.round(n));
+  return "<span class='roomy'>$" + commaNumber(Math.round(n)) + `</span>
+    <span class='compressed'>$` + Math.round(n/100)/10 + "K</span>";
 }
 
 /**
