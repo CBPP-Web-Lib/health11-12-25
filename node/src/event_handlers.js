@@ -1,6 +1,6 @@
 function event_handlers(args) {
 
-  var { sel, popupMaker } = args;
+  var { sel, popupMaker, zoomer_tracker } = args;
 
   function set_popup_text(html) {
     document.querySelector(sel + " .popup-wrap").innerHTML = html;
@@ -34,7 +34,6 @@ function event_handlers(args) {
     }
     popup.style.left = clientX + "px";
     var width = popup.querySelector(".popup").getBoundingClientRect().width;
-    console.log(width, px);
     if (popup.querySelector(".popup")) {
       popup.querySelector(".popup").style.left = (-px*width*1.05) + "px";
     }
@@ -63,7 +62,9 @@ function event_handlers(args) {
       //if (!data.properties.cd_enroll) {return;}
 
       /*Avoid showing new popup if touched to close*/
+      
       if (popupRecentlyTouched) {return;}
+      if (zoomer_tracker.isActive()) {return;}
 
       var popup_html = popupMaker(data.properties);
       set_popup_text(popup_html);

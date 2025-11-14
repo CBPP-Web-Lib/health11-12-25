@@ -110,7 +110,7 @@ Promise.all([
   merge_csv(geojson, data, headers);
 
   /*Create the SVG and the zoom controller*/
-  var {svg, zoomer} = create_svg(sel + " .map-wrap");
+  var {svg, zoomer, zoomer_tracker} = create_svg(sel + " .map-wrap");
 
   /*Create the zoom buttons*/
   create_controls(sel, zoomer);
@@ -119,7 +119,7 @@ Promise.all([
   var bins = binData(geojson.features, PRIMARY_COL, NUM_BINS, 500);
 
   /*Draw the map!*/
-  draw_districts({svg, geojson, data, bins});
+  draw_districts({svg, geojson, data, bins, zoomer_tracker});
 
   /*Overlay states*/
   draw_states(svg, state_geojson);
@@ -181,17 +181,38 @@ function create_svg(sel) {
     .attr("viewBox", "20 0 860 500");
   var popup_wrap = d3_select(sel + " .svg-wrap").append("div")
     .attr("class","popup-wrap");
+  var zoomer_tracker = new (function() {
+    var active = false;
+    this.registerMove = function() {
+      active = true;
+      clearTimeout(this.timer);
+      this.timer = setTimeout(function() {
+        active = false;
+      }, 500);
+    }
+    this.isActive = function() {
+      return active;
+    }
+  })();
   var zoomer = svgPanZoom(sel + " svg", {
-    onZoom: adjustStrokeWidth,
+    onZoom: function(z) {
+      adjustStrokeWidth(z),
+      document.querySelector(sel + " .popup-wrap").classList.remove("visible");
+      zoomer_tracker.registerMove();
+    },
     zoomScaleSensitivity: 0.4,
     minZoom: 1,
-    maxZoom: 50
+    maxZoom: 50,
+    onPan: function() {
+      document.querySelector(sel + " .popup-wrap").classList.remove("visible");
+      zoomer_tracker.registerMove();
+    }
   });
   window.addEventListener("resize", () => {
     zoomer.resize()
     zoomer.center()
   });
-  return {svg, zoomer, popup_wrap};
+  return {svg, zoomer, popup_wrap, zoomer_tracker};
 }
 
 /**
@@ -215,7 +236,7 @@ function draw_states(svg, geojson) {
  * Draw the congressional districts. Use standard d3 enter/merge/exit pattern
  */
 function draw_districts(args) {
-  var {svg, geojson, bins} = args
+  var {svg, geojson, bins, zoomer_tracker} = args
 
   const { 
     mouseEnterHandler, 
@@ -225,7 +246,7 @@ function draw_districts(args) {
     windowTouchEndHandler,
     onMouseDown,
     onMouseUp
-  } = event_handlers({sel, popupMaker});
+  } = event_handlers({sel, popupMaker, zoomer_tracker});
 
   document.body.addEventListener("touchend", windowTouchEndHandler);
   document.body.addEventListener("mousedown", onMouseDown)
