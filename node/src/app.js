@@ -181,8 +181,32 @@ function create_svg(sel) {
     .attr("viewBox", "20 0 860 500");
   var popup_wrap = d3_select(sel + " .svg-wrap").append("div")
     .attr("class","popup-wrap");
-  var zoomer_tracker = new (function() {
+  var zoomer = svgPanZoom(sel + " svg", {
+    onZoom: function(z) {
+      adjustStrokeWidth(z),
+      console.log(z);
+      document.querySelector(sel + " .popup-wrap").classList.remove("visible");
+      zoomer_tracker.registerMove();
+    },
+    zoomScaleSensitivity: 0.4,
+    minZoom: 1,
+    maxZoom: 50,
+    onPan: function(mvt) {
+      var start_coords = zoomer_tracker.getStartCoords();
+      var x = mvt.x - start_coords.x;
+      var y = mvt.y - start_coords.y;
+      var dist = Math.pow(x, 2) + Math.pow(y, 2);
+      if (dist > 1000) {
+        document.querySelector(sel + " .popup-wrap").classList.remove("visible");
+        zoomer_tracker.registerMove();
+      }
+    }
+  });
+  
+  var zoomer_tracker = new (function(zoomer) {
     var active = false;
+    var x, y;
+    this.zoomer = zoomer;
     this.registerMove = function() {
       active = true;
       clearTimeout(this.timer);
@@ -193,21 +217,14 @@ function create_svg(sel) {
     this.isActive = function() {
       return active;
     }
-  })();
-  var zoomer = svgPanZoom(sel + " svg", {
-    onZoom: function(z) {
-      adjustStrokeWidth(z),
-      document.querySelector(sel + " .popup-wrap").classList.remove("visible");
-      zoomer_tracker.registerMove();
-    },
-    zoomScaleSensitivity: 0.4,
-    minZoom: 1,
-    maxZoom: 50,
-    onPan: function() {
-      document.querySelector(sel + " .popup-wrap").classList.remove("visible");
-      zoomer_tracker.registerMove();
+    this.setStartCoords = function(coords) {
+      x = coords.x;
+      y = coords.y;
     }
-  });
+    this.getStartCoords = function() {
+      return {x, y};
+    }
+  })(zoomer);
   window.addEventListener("resize", () => {
     zoomer.resize()
     zoomer.center()
@@ -242,6 +259,7 @@ function draw_districts(args) {
     mouseEnterHandler, 
     mouseLeaveHandler, 
     mouseMoveHandler, 
+    touchStartHandler,
     touchEndHandler, 
     windowTouchEndHandler,
     onMouseDown,
@@ -260,6 +278,7 @@ function draw_districts(args) {
     .append("path")
     .attr("class","district")
     .attr("d", pathGenerator)
+    .on("touchstart", touchStartHandler)
     .on("touchend", touchEndHandler)
     .on("mouseenter", mouseEnterHandler)
     .on("mousemove", mouseMoveHandler)

@@ -54,6 +54,10 @@ function event_handlers(args) {
       document.querySelector(sel).classList.remove("mousedown");
       mouseDown = false;
     },
+    "touchStartHandler" : function(e, data) {
+      var pan = zoomer_tracker.zoomer.getPan();
+      zoomer_tracker.setStartCoords(pan);
+    },
     "touchEndHandler" : function(e, data) {
       /*mobile/touch devices only. Attaching to touchend
       seems to cause less conflicts with the pan/zoom library*/
