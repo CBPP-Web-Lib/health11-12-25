@@ -59,6 +59,9 @@
   .credit, .src-links {
     position:absolute;
     top:100%;
+    p {
+      margin:0;
+    }
   }
   .src-links {
     text-align:left;
@@ -69,6 +72,7 @@
     margin-top:0.5em;
     a {
       text-decoration: none;
+      color:#0c61a4;
       &:hover {
         text-decoration: underline;
       }
