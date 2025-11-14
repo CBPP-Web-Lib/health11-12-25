@@ -1,6 +1,6 @@
 <IfModule mod_headers.c>    
     Header set Access-Control-Allow-Origin *
     <filesMatch ".(json)$">
-        Header set Cache-Control "s-max-age=2628000, public"
+        Header set Cache-Control "s-max-age=2628000, max-age=2628000, public"
     </filesMatch>
 </IfModule>
